@@ -1,0 +1,120 @@
+
+  {% case section.settings.grid %}
+    {% when '2' %}
+      {%- assign grid_item_width = 'medium-up--one-half' -%}
+      {%- assign image_size = '530x530' -%}
+    {% when '3' %}
+      {%- assign grid_item_width = 'small--one-half medium-up--one-third' -%}
+      {%- assign image_size = '340x340' -%}
+    {% when '4' %}
+      {%- assign grid_item_width = 'small--one-half medium-up--one-quarter' -%}
+      {%- assign image_size = '250x250' -%}
+    {% when '5' %}
+      {%- assign grid_item_width = 'small--one-half medium-up--one-fifth' -%}
+      {%- assign image_size = '190x190' -%}
+  {% endcase %}
+
+
+  <!-- /.works-area start  -->
+  <section class="guide-links-area  {% if section.settings.adjust_setting != blank %} adjust-guid-links-area {% endif %}">
+    <div class="container">
+      <div class="inner-container">
+          {% if section.settings.title != blank %}
+            <div class="row align-items-center">
+              <div class="col-12">
+                <h2>{{ section.settings.title | escape }}</h2>
+                <h5>{{ section.settings.subtitle | escape }}</h5>
+              </div>
+            </div>
+
+          {% endif %}
+
+
+
+        <div class="row align-items-center justify-content-center">
+          <div class="col-12">
+            <ul class="list-inline m-0 brands">
+
+                {%- assign count = 1 -%}
+                {% for block in section.blocks limit: section.blocks.size %}
+
+
+                  <li class="list-inline-item">
+                      {%- assign collection = collections[block.settings.brand] -%}
+                      {% include 'tag-grid-item', collection_image_size: image_size %}
+                  </li>
+
+                    {% assign count = count | plus: 1 %}
+                {% endfor %}
+
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+  <!-- /.works-area start  -->
+
+  {% if section.blocks.size == 0 %}
+    {% include 'no-blocks' %}
+  {% endif %}
+
+
+{% schema %}
+  {
+    "name": "Brand list",
+    "class": "index-section",
+    "max_blocks": 500,
+    "settings": [
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Heading",
+        "default": "Brand list"
+      },
+        {
+        "type": "text",
+        "id": "subtitle",
+        "label": "Heading",
+        "default": "Brand Sub Title"
+        },
+        {
+        "type": "checkbox",
+        "id": "adjust_setting",
+        "label": "Adjust this Setting with another section",
+        "default": false
+        }
+    ],
+    "blocks": [
+      {
+        "type": "featured_collection",
+        "name": "Brand",
+        "settings": [
+          {
+            "label": "Brand",
+            "id": "brand",
+            "type": "collection"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Brand list",
+        "category": "Collection",
+        "blocks": [
+          {
+            "type": "featured_collection"
+          },
+          {
+            "type": "featured_collection"
+          },
+          {
+            "type": "featured_collection"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

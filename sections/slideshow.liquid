@@ -1,0 +1,183 @@
+<!-- /.slider-area start  -->
+<section class="slider-area {% if section.settings.overlap != false %} mb-0 {% endif %}" >
+  <div class="container">
+    <div class="full-width-slider"
+            {% if section.settings.autoplay != false %} auto-play ="{{ section.settings.autoplay }}" {% endif %}                 {% if section.settings.arrow != false %} arrow ="{{ section.settings.arrow }}" {% endif %}
+
+    >
+        {% if section.blocks.size > 0 %}
+            {% for block in section.blocks %}
+           <div class="single-slider" {% if block.settings.image %} style="background-image: url('{{ block.settings.image | img_url: '2048x' }}'); background-position: {{ block.settings.alignment }};"{% endif %}>
+        <div class="slider-container">
+          <div class="row align-items-center">
+            <div class="col-lg-6 col-md-8 col-sm-12">
+                {% if block.settings.title %}
+                  <h1>{{ block.settings.title }}</h1>
+                {% endif %}
+                {% if block.settings.subheading %}
+                  <h5 class="text-white">{{ block.settings.subheading }} </h5>
+                {% endif %}
+                {% if block.settings.caption %}
+              <div class="caption-box text-white">
+                <p>{{ block.settings.caption }}</p>
+                  {% if block.settings.shoplink %}
+                    <a href="{{ block.settings.shoplink }}" class="btn yl-btn ml-3"> <span>{{ block.settings.shopnow }}</span></a>
+                  {% endif %}
+                  {% if block.settings.morelink %}
+                    <a href="{{ block.settings.morelink }}" class="btn yl-btn ml-3"> <span>{{ block.settings.learnmore }}</span></a>
+                  {% endif %}
+
+              </div>
+                {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+
+        {% endfor %}
+        {% endif %}
+
+
+    </div>
+  </div>
+</section>
+<!-- /.slider-area end  -->
+
+{% schema %}
+  {
+    "name": "Slideshow",
+    "class": "index-section index-section--flush",
+    "max_blocks": 5,
+    "settings": [
+      {
+      "type": "checkbox",
+      "id": "overlap",
+      "label": "Overlapping Off",
+      "default": true
+      },
+
+      {
+        "type": "checkbox",
+        "id": "autoplay",
+        "label": "Auto-rotate slides",
+        "default": true
+      },
+        {
+        "type": "checkbox",
+        "id": "arrow",
+        "label": "Arrows",
+        "default": true
+        },
+        {
+        "type": "checkbox",
+        "id": "dots",
+        "label": "Dots",
+        "default": true
+        },
+
+      {
+        "type": "select",
+        "id": "autoplay_speed",
+        "label": "Change slides every",
+        "options": [
+          { "value": "5000", "label": "5 seconds" },
+          { "value": "6000", "label": "6 seconds" },
+          { "value": "7000", "label": "7 seconds" },
+          { "value": "8000", "label": "8 seconds" },
+          { "value": "9000", "label": "9 seconds" },
+          { "value": "10000", "label": "10 seconds" }
+        ],
+        "default": "7000"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "image",
+        "name": "Image slide",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image"
+          },
+          {
+            "type": "select",
+            "id": "alignment",
+            "label": "Image alignment",
+            "default": "top",
+            "options": [
+              {
+                "value": "top",
+                "label": "Top"
+              },
+              {
+                "value": "center",
+                "label": "Middle"
+              },
+              {
+                "value": "bottom",
+                "label": "Bottom"
+              }
+            ]
+          },
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Heading",
+            "default": "Image slide"
+          },
+          {
+            "type": "text",
+            "id": "subheading",
+            "label": "Subheading",
+            "default": "Tell your brand's story through images"
+          },
+          {
+          "type": "richtext",
+          "id": "caption",
+          "label": "caption",
+          "default": "<p>Tell your caption story through images</p>"
+          },
+            {
+            "id": "shopnow",
+            "type": "text",
+            "label": "Button text",
+            "default": "Shop Now"
+            },
+            {
+            "id": "shoplink",
+            "type": "url",
+            "label": "Shop Now Button link"
+            },
+              {
+              "id": "learnmore",
+              "type": "text",
+              "label": "Button text",
+              "default": "Lean More"
+              },
+            {
+            "id": "morelink",
+            "type": "url",
+            "label": "Lean More Button link"
+            }
+        ]
+      }
+    ],
+    "presets": [{
+      "name": "Slideshow",
+      "category": "Image",
+      "settings": {
+        "autoplay": true,
+        "autoplay_speed": "5000"
+      },
+      "blocks": [
+        {
+          "type": "image"
+        },
+        {
+          "type": "image"
+        }
+      ]
+    }]
+  }
+{% endschema %}

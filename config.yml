@@ -1,0 +1,6 @@
+development:
+  password: 87a7e5244ae6108368538827741f812b
+#  theme_id: "35573268515"
+  theme_id: "77190692939"
+  store: 12voltsolutions.myshopify.com
+  timeout: 60s

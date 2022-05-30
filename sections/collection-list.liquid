@@ -1,0 +1,128 @@
+
+  <!-- /.product-categories start  -->
+  <section class="product-categories">
+    <div class="container">
+      <div class="inner-cat-box">
+        <div class="inner-container">
+            {% if section.settings.title != blank %}
+              <div class="row">
+                <div class="col-lg-12">
+                  <div class="top-title border-bottom">
+                    <h2 class="d-inline-block clearfix mr-20">{{ section.settings.title | escape }}</h2> <span class="border-title"></span>
+                  </div>
+                </div>
+              </div>
+            {% endif %}
+
+          <div class="row align-items-center">
+            <div class="col-12">
+              <ul class="list-inline m-0 product">
+                  {%- assign show_item = section.settings.collection_show_item | plus: 0  -%}
+                  {%- assign count = 1 -%}
+                  {% for block in section.blocks limit: section.blocks.size %}
+                        <li class="list-inline-item {% if count > show_item %} load-more-item {% endif %} ">
+                            {%- assign collection = collections[block.settings.collection] -%}
+                            {% include 'collection-grid-item', collection_image_size: image_size %}
+                        </li>
+                      {% assign count = count | plus: 1 %}
+                  {% endfor %}
+              </ul>
+                    {% if section.blocks.size > 4 %}
+              <div class="more-btn text-center">
+                <a href="javascript:void(0)" class="btn yl-btn  load-more"><span>More</span></a>
+              </div>
+                    {% endif %}
+            </div>
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- /.product-categories end  -->
+
+
+
+
+  {% if section.blocks.size == 0 %}
+    {% include 'no-blocks' %}
+  {% endif %}
+
+
+{% schema %}
+  {
+    "name": "Collection list",
+    "class": "index-section",
+    "max_blocks": 200,
+    "settings": [
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Heading",
+        "default": "Collection list"
+      },
+      {
+        "type": "select",
+        "id": "collection_show_item",
+        "label": "Collections Show As Default",
+        "default": "4",
+        "options": [
+          {
+            "value": "2",
+            "label": "2"
+          },
+          {
+            "value": "3",
+            "label": "3"
+          },
+          {
+            "value": "4",
+            "label": "4"
+          },
+          {
+            "value": "5",
+            "label": "5"
+          },
+          {
+          "value": "6",
+          "label": "6"
+          }
+        ]
+      }
+    ],
+    "blocks": [
+      {
+        "type": "featured_collection",
+        "name": "Collection",
+        "settings": [
+          {
+            "label": "Collection",
+            "id": "collection",
+            "type": "collection"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Collection list",
+        "category": "Collection",
+        "settings": {
+          "collection_show_item": "4"
+        },
+        "blocks": [
+          {
+            "type": "featured_collection"
+          },
+          {
+            "type": "featured_collection"
+          },
+          {
+            "type": "featured_collection"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

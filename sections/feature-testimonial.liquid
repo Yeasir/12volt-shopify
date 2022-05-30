@@ -1,0 +1,85 @@
+
+<!-- /.testimonial-area  start  -->
+{% if section.blocks.size > 0 %}
+<section class="{% if section.blocks.size > 0 %}testimonial-area {% else %} h-315 {% endif %}">
+
+  <div class="container-fluid no-gutters p-0">
+    <div class="inner-box ">
+      <div class="row align-items-center">
+        <div class="col-12">
+            {% if section.settings.title != blank %}
+              <div class="top-titile-rotate">
+                <span class="border-title"></span>
+                <h2 class="d-inline-block ml-20">{{ section.settings.title | escape }}</h2>
+              </div>
+            {% endif %}
+            {% if section.blocks.size > 0 %}
+          <div class="testimonial-slider full-width-slider">
+
+              {% for block in section.blocks %}
+                  {% if block.settings.testimonial %}
+                    <div class="single-testimonial">
+                      <blockquote class="blockquote">
+                        <p>{{ block.settings.testimonial }}</p>
+                        <footer class="blockquote-footer text-right">{{ block.settings.name }}</footer>
+                      </blockquote>
+                    </div>
+                  {% endif %}
+              {% endfor %}
+          </div>
+            {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- /.testimonial-area start  -->
+{% endif %}
+{% schema %}
+  {
+    "name": "Testimonial",
+    "class": "index-section",
+    "settings": [
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Heading",
+        "default": "Testimonial"
+      }
+    ],
+  "blocks": [
+  {
+  "type": "text",
+  "name": "Add New Testimonial",
+  "settings": [
+      {
+      "type": "richtext",
+      "id": "testimonial",
+      "label": "Add New Testimonial Item",
+      "default": "<p>Use overlay text to give your customers insight into your brand. Select imagery and text that relates to your style and story.</p>"
+      },
+      {
+      "type": "text",
+      "id": "name",
+      "label": "Client Name",
+      "default": "Nate Yazzie"
+      }
+  ]
+  }
+  ],
+    "presets": [
+      {
+        "name": "Testimonial",
+        "category": "content",
+          "blocks": [
+          {
+          "type": "text"
+          },
+          {
+          "type": "text"
+          }
+          ]
+      }
+    ]
+  }
+{% endschema %}

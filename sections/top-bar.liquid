@@ -1,0 +1,62 @@
+{% if section.settings.announcement_bar_home_page_only %}
+    <section class="top-bar">
+        <div class="container-fluid">
+            <div class="row align-items-center">
+                <div class="col-12 text-white text-center">
+                    {% if section.settings.message %}
+                        <div class="notification-bar">
+                            {% if section.settings.message %}
+                                {% if section.settings.message_link != blank %}
+                                    <a href="{{ section.settings.message_link }}" class="notification-bar__message">
+                                        {{ section.settings.message_text | escape }}
+                                    </a>
+                                {% else %}
+                                    <p>{{ section.settings.message_text | escape }}</p>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                    <div class="close"><i class="zmdi zmdi-close"></i></div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- /.top-bar end  -->
+{% endif %}
+
+
+{% schema %}
+    {
+    "name": "Top Bar",
+    "settings": [
+    {
+    "type": "header",
+    "content": "Announcement bar"
+    },
+    {
+    "type": "checkbox",
+    "id": "announcement_bar_home_page_only",
+    "label": "Show on home page only",
+    "default": true
+    },
+    {
+    "type": "checkbox",
+    "id": "message",
+    "label": "Show announcement",
+    "default": false
+    },
+    {
+    "type": "text",
+    "id": "message_text",
+    "label": "Announcement text",
+    "default": "Announce something here"
+    },
+    {
+    "type": "url",
+    "id": "message_link",
+    "label": "Announcement link",
+    "info": "Optional"
+    }
+    ]
+    }
+{% endschema %}

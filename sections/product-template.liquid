@@ -1,0 +1,415 @@
+{% comment %}
+  Get first variant, or deep linked one
+{% endcomment %}
+  {%- assign current_variant = product.selected_or_first_available_variant -%}
+  {%- assign product_thumb_size = '110x110' -%}
+  {%- assign product_image_zoom_size = '1024x1024' -%}
+  {%- assign product_image_scale = '2' -%}
+  {%- assign enable_zoom = section.settings.enable_zoom -%}
+
+
+  {%- assign descriptions_heading =  product.metafields.descriptions.description_heading -%}
+  {%- assign all_tabs_content =  product.metafields.tabs.tab_content -%}
+
+
+
+  {% case section.settings.image_size %}
+  {% when 'small' %}
+  {%- assign product_image_width = 'medium-up--one-third' -%}
+  {%- assign product_description_width = 'medium-up--two-thirds' -%}
+  {%- assign product_thumbnail_width = 'medium-up--one-third' -%}
+  {%- assign product_image_size = '345x' -%}
+  {% when 'medium' %}
+  {%- assign product_image_width = 'medium-up--one-half' -%}
+  {%- assign product_description_width = 'medium-up--one-half' -%}
+  {%- assign product_thumbnail_width = 'medium-up--one-quarter' -%}
+  {%- assign product_image_size = '530x' -%}
+  {% when 'large' %}
+  {%- assign product_image_width = 'medium-up--two-thirds' -%}
+  {%- assign product_description_width = 'medium-up--one-third' -%}
+  {%- assign product_thumbnail_width = 'medium-up--one-fifth' -%}
+  {%- assign product_image_size = '720x' -%}
+  {% when 'full' %}
+  {%- assign product_image_width = '' -%}
+  {%- assign product_description_width = '' -%}
+  {%- assign product_thumbnail_width = 'medium-up--one-eighth' -%}
+  {%- assign product_image_size = '1090x' -%}
+  {%- assign enable_zoom = false -%}
+  {% endcase %}
+
+<!-- /.product-details-area start  -->
+<section class="product-details-area" itemscope itemtype="http://schema.org/Product" id="ProductSection-{{ section.id }}" data-section-id="{{ section.id }}" data-section-type="product" data-enable-history-state="true">
+  <div class="container">
+    <div class="inner-product-box">
+      <div class="inner-container">
+        <div class="product-details-nfo"  >
+          <div class="row m-0">
+            <div class="col-lg-6 col-md-12 col-sm-12 p-0">
+              <div class="product-details-img-box {{ product_image_width }}{% if section.settings.image_size == 'full' %} product-single__photos--full{% endif %}" >
+                  {% if product.images.size > 1 %}
+                  {% if product.images.size >= 2 %}
+                      {%- assign enable_thumbnail_slides = true -%}
+                  {% endif %}
+                        <div class="slider {% if enable_thumbnail_slides == true %} slider-for {% endif %} ">
+
+                            {% for image in product.images %}
+
+                              <div id="FeaturedImageZoom-{{ section.id }}" class="product-single__photo product-single__photo--has-thumbnails {% if section.settings.image_size == 'full' %} product-single__photos--full{% endif %}" {% if enable_zoom %} data-zoom="{{ image.src | img_url: product_image_zoom_size, scale: product_image_scale }}"{% endif %}>
+                                <img src="{{ image.src | img_url: product_image_size, scale: product_image_scale }}" alt="{{ image.alt }}" id="FeaturedImage-{{ section.id }}" class="product-featured-img{% if enable_zoom %} js-zoom-enabled{% endif %}">
+                              </div>
+                            {% endfor %}
+
+                        </div>
+                        <div class="slider {% if enable_thumbnail_slides == true %} slider-nav {% endif %}  ">
+
+                            {% for image in product.images %}
+
+                              <div>
+                                  <img class="product-single__thumbnail-image" src="{{ image.src | img_url: product_thumb_size, scale: product_image_scale }}" alt="{{ image.alt | escape }}">
+                                </div>
+
+                            {% endfor %}
+
+
+                        </div>
+
+                  {% else %}
+
+                  {%- assign featured_img_src = current_variant.featured_image.src | default: product.featured_image.src -%}
+                  {%- assign featured_img_alt = current_variant.featured_image.alt | default: product.featured_image.alt -%}
+                <div id="FeaturedImageZoom-{{ section.id }}" class="product-single__photo{% if product.images.size > 1 %} product-single__photo--has-thumbnails{% endif %}" {% if enable_zoom %} data-zoom="{{ featured_img_src | img_url: product_image_zoom_size, scale: product_image_scale }}"{% endif %}>
+                  <img src="{{ featured_img_src | img_url: product_image_size, scale: product_image_scale }}" alt="{{ featured_img_alt }}" id="FeaturedImage-{{ section.id }}" class="product-featured-img{% if enable_zoom %} js-zoom-enabled{% endif %}">
+                </div>
+                  {% endif %}
+              </div>
+            </div>
+
+            <div class="col-lg-6 col-md-12 col-sm-12 p-0">
+
+              <div class="product-details-box">
+
+                <div class="product-title-box">
+                  <h2>{{ product.title }}</h2>
+
+                    {% if section.settings.show_vendor %}
+                      <h4 class="product-single__vendor mt-2">{{ product.vendor }}</h4>
+                    {% endif %}
+                </div>
+                <hr>
+
+                <div class="product-content-box">
+
+                  <h2 class="price product-single__price product-single__price-{{ section.id }}{% unless current_variant.available %} product-price--sold-out{% endunless %}">
+
+                        {% if current_variant.compare_at_price > current_variant.price %}
+                          <s id="ComparePrice-{{ section.id }}">{{ current_variant.compare_at_price | money | replace_first: "Tk", "<sup>Tk</sup>" | replace_first: "$", "<sup>$</sup>" }}</s>
+                          <span class="product-price__price product-price__price-{{ section.id }} product-price__sale product-price__sale--single">
+                  <span id="ProductPrice-{{ section.id }}"
+                        itemprop="price" content="{{ current_variant.price | divided_by: 100.00 }}">
+                      {{  current_variant.price | money | replace_first: "Tk", "<sup>Tk</sup>" | replace_first: "$", "<sup>$</sup>" }}
+                  </span>
+
+                </span>
+                        {% else %}
+
+                          <s id="ComparePrice-{{ section.id }}" class="hide">{{ current_variant.compare_at_price | money }}</s>
+                          <span class="product-price__price product-price__price-{{ section.id }}">
+                <span id="ProductPrice-{{ section.id }}"
+                      itemprop="price" content="{{ current_variant.price | divided_by: 100.00 }}">
+                  {{ current_variant.price | money  | replace_first: "Tk", "<sup>Tk</sup>" | replace_first: "$", "<sup>$</sup>" }}
+                </span>
+
+              </span>
+                        {% endif %}
+
+                  </h2>
+                  <p class="description ">
+                      {{ product.description }}
+                  </p>
+
+
+
+
+
+                    <form action="/cart/add" method="post" enctype="multipart/form-data" class="product-form product-form-{{ section.id }}{% unless section.settings.show_variant_labels %} product-form--hide-variant-labels{% endunless %}" data-section="{{ section.id }}">
+
+                      <div class="qty-wrap">
+
+                        <div class="{% unless section.settings.show_variant_labels %} d-none{% endunless %} ">
+                        {% unless product.options.size == 1 and product.variants[0].title == 'Default Title' %}
+                            {% for option in product.options_with_values %}
+                              <div class="selector-wrapper js product-form__item d-inline-block mr-3">
+                                <label {% if option.name == 'default' %}class="label--hidden" {% endif %}for="SingleOptionSelector-{{ forloop.index0 }}">
+                                  Variants  {{ option.name }}
+                                </label>
+                                <select class="single-option-selector single-option-selector-{{ section.id }} product-form__input" id="SingleOptionSelector-{{ forloop.index0 }}" data-index="option{{ forloop.index }}">
+                                    {% for value in option.values %}
+                                      <option value="{{ value | escape }}"{% if option.selected_value == value %} selected="selected"{% endif %}>{{ value }}</option>
+                                    {% endfor %}
+                                </select>
+                              </div>
+                            {% endfor %}
+                        {% endunless %}
+
+                      <select name="id" id="ProductSelect-{{ section.id }}" data-section="{{ section.id }}" class="product-form__variants no-js d-inline-block">
+                          {% for variant in product.variants %}
+                              {% if variant.available %}
+                                <option {% if variant == product.selected_or_first_available_variant %} selected="selected" {% endif %} value="{{ variant.id }}">
+                                    {{ variant.title }}
+                                </option>
+                              {% else %}
+                                <option disabled="disabled">{{ variant.title }} - {{ 'products.product.sold_out' | t }}</option>
+                              {% endif %}
+                          {% endfor %}
+                      </select>
+                        </div>
+                        {% if section.settings.show_quantity_selector %}
+                          <div class="product-form__item product-form__item--quantity">
+                             <label class="quantity" for="Quantity"> - {{ 'products.product.quantity' | t }}</label>
+
+                            <div class="input-group">
+                              <buttton class="btn minus ">      <span >-</span></buttton>
+                              <input type="number" id="Quantity" name="quantity" value="1" min="1" class="form-control input-number d-inline-block" pattern="[0-9]*">
+
+
+                              <buttton  class="btn plus "> <span>+</span></buttton>
+                            </div>
+                          </div>
+                        {% endif %}
+
+
+                      </div>
+
+                      <div class="product-form__item product-form__item--submit">
+                        <button type="submit" name="add" id="AddToCart-{{ section.id }}" {% unless current_variant.available %}disabled="disabled"{% endunless %} class="btn yl-btn add-to-cart-btn product-form__cart-submit{% if product.options.size == 1 and product.variants[0].title == 'Default Title' %} product-form__cart-submit--small{% endif %}">
+                <span id="AddToCartText-{{ section.id }}">
+                  {% unless current_variant.available %}
+                      {{ 'products.product.sold_out' | t }}
+                      {% else %}
+                      {{ 'products.product.add_to_cart' | t }}
+                  {% endunless %}
+                </span>
+                        </button>
+                      </div>
+                    </form>
+                </div>
+
+              </div>
+
+
+
+            </div>
+
+          </div>
+        </div>
+        <div class="product-tab-nfo">
+
+          <div class="row">
+
+            <div class="col-12">
+
+                {% if section.settings.description != false %}
+              <h2 class="d-inline-block clearfix mr-20">{{ section.settings.description_title | escape }}</h2><span class="border-title"></span>
+
+              <hr>
+
+                 {% if descriptions_heading != blank %}
+                   <h5>{{ descriptions_heading }}</h5>
+                 {% endif %}
+                {% endif %}
+              <!--Operation          Installation-->
+              <!--tab-wrapper-->
+
+                {% if section.blocks.size > 0 and all_tabs_content.size > 0 %}
+
+              <div class=" tab-wrapper">
+
+                    <ul class="nav nav-tabs product-tabs " role="tablist">
+                        {%- assign count = 0 -%}
+
+                        {% for block in section.blocks    %}
+                            {% if block.settings.tab_list %}
+                          <li class="nav-item {% unless all_tabs_content.size > count  %}  d-none {% endunless %}">
+                            <a class="nav-link {% unless count != 0 %} active {% endunless %}  " href="#ptab-{{ count }}" role="tab" data-toggle="tab">{{ block.settings.tab_list }}</a>
+                          </li>
+                            {% endif %}
+                            {% assign count = count | plus: 1 %}
+                        {% endfor %}
+
+                    </ul>
+                <!-- Tab panes -->
+                <div class="tab-content ">
+
+                    {%- assign count = 0 -%}
+
+                    {% for tab_content in all_tabs_content  %}
+                      <!--additional-->
+                      <div role="tabpanel {{ section.blocks.size }}" class="tab-pane fade    {% if count < 1 %} in active show {% endif %} " id="ptab-{{ count }}">
+                        <div class="description">
+
+                            {{ tab_content }}
+                      </div>
+                      <!--additional-->
+                      </div>
+
+
+
+                          {% assign count = count | plus: 1 %}
+                    {% endfor %}
+
+
+
+
+              </div>
+
+              <!--tab-wrapper-->
+            </div>
+                {% endif %}
+
+
+          </div>
+            </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- /.product-details-area end  -->
+
+
+
+{% if section.settings.back_to_category != false %}
+{% if collection %}
+  <div class="text-center return-link-wrapper pt-2 pb-2">
+    <a href="{{ collection.url }}" class="btn yl-btn return-link">
+     <span> {{ 'products.product.back_to_collection' | t: title: collection.title }}</span>
+    </a>
+  </div>
+{% endif %}
+{% endif %}
+
+{% unless product == empty %}
+  <script type="application/json" id="ProductJson-{{ section.id }}">
+    {{ product | json }}
+  </script>
+{% endunless %}
+
+
+
+
+
+
+{% schema %}
+  {
+    "name": "Product pages",
+    "settings": [
+      {
+        "type": "select",
+        "id": "image_size",
+        "label": "Image size",
+        "options": [
+          {
+            "value": "small",
+            "label": "Small"
+          },
+          {
+            "value": "medium",
+            "label": "Medium"
+          },
+          {
+            "value": "large",
+            "label": "Large"
+          },
+          {
+            "value": "full",
+            "label": "Full-width"
+          }
+        ],
+        "default": "medium"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_quantity_selector",
+        "label": "Show quantity selector",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "show_variant_labels",
+        "label": "Show variant labels",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "show_vendor",
+        "label": "Show vendor",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_zoom",
+        "label": "Enable image zoom",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "show_share_buttons",
+        "label": "Show social sharing buttons",
+        "default": true
+      },
+      {
+      "type": "checkbox",
+      "id": "back_to_category",
+      "label": "Back To Category Page",
+      "default": true
+      },
+      {
+      "type": "checkbox",
+      "id": "description",
+      "label": "Description Show",
+      "default": true
+      },
+      {
+      "type": "text",
+      "id": "description_title",
+      "label": "Description Title",
+      "default": "Description"
+      }
+    ],
+  "blocks": [
+  {
+  "type": "text",
+  "name": "Add New Tab",
+  "settings": [
+  {
+  "type": "text",
+  "id": "tab_list",
+  "label": "Add New Tab Item"
+  },
+  {
+  "type":      "header",
+  "content":   "Tab Content",
+  "info":      "Add Tab Content From each product page"
+  }
+  ]
+  }
+  ],
+  "presets": [
+  {
+  "name": "Tab Name",
+  "category": "Tab",
+  "blocks": [
+  {
+  "type": "text"
+  },
+  {
+  "type": "text"
+  }
+  ]
+  }
+  ]
+  }
+{% endschema %}

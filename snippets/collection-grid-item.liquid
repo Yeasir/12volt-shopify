@@ -1,0 +1,30 @@
+{% unless collection_image_size %}
+  {%- assign collection_image_size = '340x340' -%}
+{% endunless %}
+{%- assign collection_image_scale = '2' -%}
+
+{% if collection.image %}
+  {% capture collection_image_url %}{{ collection | img_url: collection_image_size, scale: collection_image_scale, crop: 'top' }}{% endcapture %}
+{% elsif collection.products.first and collection.products.first.images != empty %}
+  {% capture collection_image_url %}{{ collection.products.first | img_url: collection_image_size, scale: collection_image_scale, crop: 'top' }}{% endcapture %}
+{% else %}
+  {% assign collection_image_url = blank %}
+{% endif %}
+
+
+<div class="category">
+  <div class="category-img-box  d-flex  h-100 align-items-center">
+    <a class="d-block m-auto" href="{% if collection.products == empty %}#{% else %}{{ collection.url }}{% endif %}">
+        {% unless collection_image_url == blank %} <img src="{{ collection_image_url }}" alt="">{% endunless %}
+
+    </a>
+  </div>
+    {% if collection.title == blank %}
+        {{ 'homepage.onboarding.collection_title' | t }}
+    {% else %}
+    <h3 >  <a href="{% if collection.products == empty %}#{% else %}{{ collection.url }}{% endif %}" class="black-text text-underline"> {{ collection.title }}</a></h3>
+    {% endif %}
+</div>
+
+
+

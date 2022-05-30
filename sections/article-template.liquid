@@ -1,0 +1,195 @@
+
+<section class="inner-banner">
+  <div class="container inner-banner-content-box {% if section.settings.overlay_banner != false %} overlay-banner {% endif %}"
+          {% if section.settings.image %} style="background-image: url('{{ section.settings.image | img_url: '2048x' }}'); background-position: center {{ section.settings.alignment }};"{% endif %}>
+    <div class="inner-container">
+      <div class="row align-items-center">
+        <div class="col">
+          <h1>{{ article.title }}</h1>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- /.works-area start  -->
+<section class="faq-area">
+  <div class="container">
+    <div class="inner-container">
+      <article>
+        <div class="row">
+          <div class="col-12">
+              {% if section.settings.blog_show_author %}
+                <a href="" class="float-left author-info"> {{ 'blogs.article.by_author' | t: author: article.author }}</a>
+              {% endif %}
+
+              {% if section.settings.blog_show_date %}
+                <a href="" class="float-right date">{{ article.published_at | time_tag: format: 'month_day_year' }}</a>
+              {% endif %}
+            <div class="clearfix"></div>
+
+            <hr>
+            <div class="blog-description">
+                {{ article.content }}
+                {% if article.image %}
+                   <img src="{{ article.image.src | img_url: '2048x' }}" alt="{{ article.image.alt }}">
+                {% endif %}
+            </div>
+          </div>
+        </div>
+      </article>
+
+
+        {% if section.settings.show_share_buttons %}
+        <div class="row mb-3">
+            <div class="col-12 text-right">
+            {% include 'social-sharing', share_title: article.title, share_permalink: article.url, share_image: article.image %}
+            </div>
+        </div>
+        {% endif %}
+
+
+        {% if section.settings.comment_show != false %}
+        <div class="row">
+            <div class="col-12">
+                {%- include 'comment-on-post' -%}
+            </div>
+        </div>
+        {% endif %}
+
+
+        {% if section.settings.related_post != false %}
+        {% if section.settings.related_post_title != false %}
+            <div class="row align-items-center">
+              <div class="col-12">
+                <h2 class="d-inline-block clearfix mr-20">{{ section.settings.related_post_title | escape}}</h2>
+                <span class="border-title"></span>
+              </div>
+            </div>
+            <hr>
+        {% endif %}
+      <div class="row mt-50">
+          {% for article in blog.articles limit:4 %}
+              {% unless page_title contains article.title %}
+                <div class="col-lg-4 col-md-6 col-sm-12">
+                  <article>
+                      <a href="{{ article.url }}"> <img src="{{ article.image.src | img_url: '540x' }}" alt="{{ article.image.alt }}"></a>
+                    <h5 class="blog-title">
+                      <a href="{{ article.url }}">{{ article.title }}</a>
+                    </h5>
+
+                    <p class="blog-description">
+                        {{ article.excerpt }}
+                    </p>
+
+                    <a href="" class="float-left author-info">  {{ 'blogs.article.by_author' | t: author: article.author }}</a>
+                    <a href="" class="float-right date"> {{ article.published_at | time_tag: format: 'month_day_year' }}</a>
+                    <div class="clearfix"></div>
+
+                  </article>
+                </div>
+              {% endunless %}
+          {% endfor %}
+
+      </div>
+        {% endif %}
+        {% if section.settings.backtobtn != false %}
+        <div class="row">
+            <div class="col">
+                <div class="text-center return-link-wrapper mb-3 pb-3">
+                    <a href="{{ blog.url }}" class="btn yl-btn">
+                        <span><i class="zmdi zmdi-arrow-left"></i></span>
+                        <span> {{ 'blogs.article.back_to_blog' | t: title: blog.title }}</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+    </div>
+  </div>
+</section>
+<!-- /.works-area start  -->
+
+
+{% schema %}
+  {
+    "name": "Posts",
+    "settings": [
+      {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Blog Banner Image"
+      },
+      {
+      "type": "select",
+      "id": "alignment",
+      "label": "Image alignment",
+      "default": "center",
+      "options": [
+      {
+      "value": "top",
+      "label": "Top"
+      },
+      {
+      "value": "center",
+      "label": "Middle"
+      },
+      {
+      "value": "bottom",
+      "label": "Bottom"
+      }
+      ]
+      },
+          {
+          "type": "checkbox",
+          "id": "overlay_banner",
+          "label": "Show overlay On Banner",
+          "default": true
+          },
+     {
+        "type": "checkbox",
+        "id": "blog_show_author",
+        "label": "Show author",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "blog_show_date",
+        "label": "Show date",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "show_share_buttons",
+        "label": "Show social sharing buttons",
+        "default": true
+      },
+        {
+        "type": "checkbox",
+        "id": "related_post",
+        "label": "Show Related Post",
+        "default": true
+        },
+      {
+      "type": "text",
+      "id": "related_post_title",
+      "label": "Related Articles Title",
+      "default": "Related Articles"
+      },
+    {
+    "type": "checkbox",
+    "id": "comment_show",
+    "label": "Show Comment",
+    "default": true
+    },
+    {
+    "type": "checkbox",
+    "id": "backtobtn",
+    "label": "Show Back Button",
+    "default": true
+    }
+    ]
+  }
+{% endschema %}

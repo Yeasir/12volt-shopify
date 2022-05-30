@@ -1,0 +1,217 @@
+
+{% if collection %}
+    {% assign product_collection = collection %}
+    {% assign banner = collection.metafields.images.image %}
+    {% assign about_title = collection.metafields.abouts.about_title %}
+    {% assign about_subtitle = collection.metafields.abouts.about_sub_title %}
+    {% assign about_image = collection.metafields.abouts.about_category_image %}
+{% else %}
+    {% assign product_collection = product.collections.first %}
+{% endif %}
+
+
+{% if section.settings.show_collection_about != false %}
+    {% unless product_collection == blank %}
+
+        {% if product_collection.description != blank %}
+            <!-- /.problem-solved start  -->
+            <section class="problem-solved  {% if section.settings.show_pattern_about != false %}pattern {% endif %}">
+                <div class="container-fluid no-gutters p-0">
+                    <div class="problem-solve-inner-box" {% if about_image != blank %} style="background-image: url({{ about_image }});"  {% else %}  style="background-color: #ffbe00"   {% endif %}>
+
+                        <div class="inner-box ">
+
+                            <div class="row">
+                                <div class="col-lg-6 col-md-8 col-sm-12 p-0 ">
+                                    <div class="problem-content-box ">
+                                        {% if about_title != blank %}
+                                            <h2 class="d-inline-block mr-20">{{ about_title | escape }}</h2>
+                                            <span class="border-title"></span>
+                                        {% endif %}
+                                        {% if about_subtitle != blank %}
+                                            <h5>{{ about_subtitle | escape }} </h5>
+                                        {% endif %}
+                                        {{ product_collection.description }}
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+            <!-- /.problem-solved end  -->
+        {% endif %}
+    {% endunless %}
+{% endif %}
+
+
+
+
+
+{% schema %}
+    {
+    "name": "Collection pages",
+    "settings": [
+    {
+    "type": "text",
+    "id": "product_title",
+    "label": "Product Title",
+    "default": "Products"
+    },
+    {
+    "type": "select",
+    "id": "default_show",
+    "label": "Show Product as Default",
+    "default": "12",
+    "options": [
+    {
+    "value": "2",
+    "label": "2"
+    },
+    {
+    "value": "3",
+    "label": "3"
+    },
+    {
+    "value": "4",
+    "label": "4"
+    },
+    {
+    "value": "5",
+    "label": "5"
+    },
+    {
+    "value": "6",
+    "label": "6"
+    },
+    {
+    "value": "7",
+    "label": "7"
+    },
+    {
+    "value": "8",
+    "label": "8"
+    },
+    {
+    "value": "9",
+    "label": "9"
+    },
+    {
+    "value": "10",
+    "label": "10"
+    },
+    {
+    "value": "11",
+    "label": "11"
+    },
+    {
+    "value": "12",
+    "label": "12"
+    }
+    ]
+    },
+    {
+    "type": "checkbox",
+    "id": "show_vendor",
+    "label": "Show product vendors",
+    "default": false
+    },
+    {
+    "type": "checkbox",
+    "id": "sort_enable",
+    "label": "Enable sorting",
+    "default": true
+    },
+    {
+    "type": "checkbox",
+    "id": "tags_enable",
+    "label": "Enable tag filtering",
+    "default": true
+    },
+    {
+    "type": "checkbox",
+    "id": "show_collection_image",
+    "label": "Show collection image",
+    "default": true
+    },
+    {
+    "type": "checkbox",
+    "id": "show_collection_about",
+    "label": "Show Collection About",
+    "default": true
+    },
+    {
+    "type": "checkbox",
+    "id": "show_pattern_about",
+    "label": "Show Pattern In About Section",
+    "default": true
+    },
+    {
+    "type": "text",
+    "id": "title",
+    "label": "Collection Heading",
+    "default": "Collection list"
+    },
+    {
+    "type": "select",
+    "id": "collection_show_item",
+    "label": "Collections Show As Default",
+    "default": "4",
+    "options": [
+    {
+    "value": "2",
+    "label": "2"
+    },
+    {
+    "value": "3",
+    "label": "3"
+    },
+    {
+    "value": "4",
+    "label": "4"
+    },
+    {
+    "value": "5",
+    "label": "5"
+    }
+    ]
+    }
+    ],
+    "blocks": [
+    {
+    "type": "featured_collection",
+    "name": "Collection",
+    "settings": [
+    {
+    "label": "Collection",
+    "id": "collection",
+    "type": "collection"
+    }
+    ]
+    }
+    ],
+    "presets": [
+    {
+    "name": "Category Collection list",
+    "category": "Collection",
+    "settings": {
+    "collection_show_item": "4"
+    },
+    "blocks": [
+    {
+    "type": "featured_collection"
+    },
+    {
+    "type": "featured_collection"
+    },
+    {
+    "type": "featured_collection"
+    }
+    ]
+    }
+    ]
+
+    }
+{% endschema %}

@@ -1,0 +1,79 @@
+
+
+<!-- /.search-box start  -->
+<section class="search-box">
+    <div class="container">
+        <div class="inner-search-box">
+            <div class="inner-container">
+                {% if section.settings.title != blank %}
+                <div class="row">
+                    <div class="col-12">
+                        <h2 class="d-inline-block clearfix mr-20">{{ section.settings.title }}</h2><span class="border-title"></span>
+                    </div>
+                </div>
+                <hr>
+                {% endif %}
+                <form action="">
+                    <div class="row pt-40">
+                        <div class="col-12">
+                            <ul class="list-inline model-seach m-0">
+                                <li class="list-inline-item">
+
+
+                                    <select class="form-control custom-select">
+
+                                        {%- for collection in collections -%}
+
+                                    <option value="{{ collection.id }}"> {{ collection.title }}</option>
+                                       {% endfor %}
+
+                                    </select>
+                                </li>
+                                <li class="list-inline-item">
+                                    <select class="form-control custom-select">
+                                        <option value="A4 Allroad">A4 Allroad</option>
+                                        <option value="A4 Allroad 2">A4 Allroad 2</option>
+                                        <option value="A4 Allroad 3">A4 Allroad 3</option>
+                                        <option value="A4 Allroad 4">A4 Allroad 4</option>
+                                        <option value="A4 Allroad 5">A4 Allroad 5</option>
+                                    </select>
+                                </li>
+                                <li class="list-inline-item">
+
+                                    <select class="form-control custom-select">
+                                        {%- for collection in collections -%}
+                                            <option value="{{ collection.published_at | date: "%Y" }}">{{ collection.published_at | date: "%Y" }}</option>
+                                        {% endfor %}
+
+                                    </select>
+
+                                </li>
+                            </ul>
+
+                            <button class="btn yl-btn search-btn"><span><i class="zmdi zmdi-search"></i></span></button>
+
+                        </div>
+
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</section>
+<!-- /.search-box end  -->
+
+{% schema %}
+    {
+    "name": "Search Box",
+    "settings": [
+    {
+    "type": "text",
+    "id": "title",
+    "label": "Search Title",
+    "default": "What is your vehicle’s year, make and model?"
+    }
+
+    ]
+    }
+{% endschema %}

@@ -1,0 +1,23 @@
+{% unless grid_image_width %}
+  {%- assign grid_image_width = '300x300' -%}
+{% endunless %}
+{%- assign grid_image_scale = '2' -%}
+
+
+<div class="product">
+  <a href="{{ product.url | within: collection }}" class="product-img-box">
+    <div class="img-box-wrap  text-center   align-items-center" style="background-image: url({{ product.featured_image.src | img_url: grid_image_width, scale: grid_image_scale }})"> </div>
+  </a>
+  <div class="product-info">
+
+      {% if section.settings.show_vendor %}
+        <div class="grid-view-item__vendor mb-2">{{ product.vendor }}</div>
+      {% endif %}
+
+
+    <h5 class="product-price"> {% include 'product-price' %}</h5>
+    <a href="{{ product.url | within: collection }}" class="black-text   product-title ">{{ product.title }}</a>
+  </div>
+
+</div>
+

@@ -1,0 +1,126 @@
+<div id="accordion">
+    {% if section.blocks.size > 0 %}
+        {%- assign count = 1 -%}
+        {% for block in section.blocks %}
+                    <div class="card">
+        <div class="card-header" id="heading-{{ count }}">
+            <h4 class="mb-0">
+                <a class="collapsed" role="button" data-toggle="collapse"
+                   href="#collapse-{{ count }}" aria-expanded="false"
+                   aria-controls="collapse-{{ count }}">
+                    {{ block.settings.heading }}
+                </a>
+            </h4>
+        </div>
+        <div id="collapse-{{ count }}" class="collapse {% if count == 1 %} show {% endif %}" data-parent="#accordion"
+             aria-labelledby="heading-{{ count }}">
+            <div class="card-body">
+
+                {% if block.settings.title_first %}
+                    <h6>{{ block.settings.title_first }}</h6>
+                    {{  block.settings.content_first }}
+                {% endif %}
+
+                {% if block.settings.title_second %}
+                    <h6>{{ block.settings.title_second }}</h6>
+                  {{  block.settings.content_second }}
+                {% endif %}
+
+                {% if block.settings.title_third %}
+                    <h6>{{ block.settings.title_third }}</h6>
+                    {{  block.settings.content_third }}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+            {% assign count = count | plus: 1 %}
+        {% endfor %}
+
+    {% endif %}
+
+
+</div>
+
+{% schema %}
+    {
+    "name": "FAQ Blocks",
+    "max_blocks": 12,
+
+    "blocks": [
+    {
+    "type": "select",
+    "name": "Add New Faq Block",
+    "settings": [
+    {
+    "type":  "header",
+    "content":   "First Content Item"
+    },
+    {
+    "type": "text",
+    "id": "heading",
+    "label": "Add New Faq Heading",
+    "default": "Faq Heading"
+    },
+    {
+    "type": "text",
+    "id": "title_first",
+    "label": "Add New Faq Title First",
+    "default": "Faq Title"
+    },
+    {
+    "type": "richtext",
+    "id": "content_first",
+    "label": "Add New Faq Content First",
+    "default": "<p>Faq Content</p>"
+    },
+    {
+    "type":      "header",
+    "content":   "Second  Content Item"
+    },
+    {
+    "type": "text",
+    "id": "title_second",
+    "label": "Add New Faq Title Second",
+    "default": "Faq Title"
+    },
+    {
+    "type": "richtext",
+    "id": "content_second",
+    "label": "Add New Faq Content Second",
+    "default": "<p>Faq Content</p>"
+    },
+    {
+    "type":      "header",
+    "content":   "Third  Content Item"
+    },
+    {
+    "type": "text",
+    "id": "title_third",
+    "label": "Add New Faq Title Third",
+    "default": "Faq Title"
+    },
+    {
+    "type": "richtext",
+    "id": "content_third",
+    "label": "Add New Faq Content Third",
+    "default": "<p>Faq Content</p>"
+    }
+    ]
+    }
+    ],
+    "presets": [
+    {
+    "name": "FAQ Blocks",
+    "category": "FAQ Blocks",
+    "blocks": [
+    {
+    "type": "select"
+    },
+    {
+    "type": "select"
+    }
+    ]
+    }
+    ]
+    }
+{% endschema %}

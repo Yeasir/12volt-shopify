@@ -1,0 +1,99 @@
+<section class="inner-banner">
+    <div class="container inner-banner-content-box" {% if section.settings.image == blank %}
+        style="background: #bc8d00;"
+    {% endif %} {% if section.settings.image %} style="background-image: url('{{ section.settings.image | img_url: '2048x' }}'); background-position: center {{ section.settings.alignment }};"{% endif %}>
+        <div class="inner-container">
+            <div class="row align-items-center">
+                <div class="col text-white  {% if section.settings.content_alignment == 'left' %} text-left {% endif %} {% if section.settings.content_alignment == 'center' %} text-center {% endif %} {% if section.settings.content_alignment == 'right' %} text-right {% endif %}  ">
+                    <h1 class="mb-30">{{ page.title }}</h1>
+                    {% if section.settings.content_show != false %}
+                    {{ page.content }}
+                    {% endif %}
+                    {% if section.settings.button_label != blank and section.settings.button_link != blank %}
+                        <div class="mt-30 ml-3">
+                            <a href="{{ section.settings.button_link }}"
+                               class="btn {% if section.settings.image == blank %} bl-btn {% else %} yl-btn  {% endif %}"><span> {{ section.settings.button_label }}</span></a>
+                        </div>
+                    {% endif %}
+
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</section>
+{% schema %}
+    {
+    "name": "Hero Banner",
+    "class": "index-section index-section--flush",
+    "settings": [
+    {
+    "type": "image_picker",
+    "id": "image",
+    "label": "Image"
+    },
+    {
+    "type": "select",
+    "id": "alignment",
+    "label": "Image alignment",
+    "default": "center",
+    "options": [
+    {
+    "value": "top",
+    "label": "Top"
+    },
+    {
+    "value": "center",
+    "label": "Middle"
+    },
+    {
+    "value": "bottom",
+    "label": "Bottom"
+    }
+    ]
+    },
+    {
+    "type": "checkbox",
+    "id": "content_show",
+    "label": "Content Show",
+    "default": false
+    },
+    {
+    "type": "select",
+    "id": "content_alignment",
+    "label": "Content alignment",
+    "default": "left",
+    "options": [
+    {
+    "value": "left",
+    "label": "Left"
+    },
+    {
+    "value": "center",
+    "label": "Center"
+    },
+    {
+    "value": "right",
+    "label": "Right"
+    }
+    ]
+    },
+    {
+    "type": "text",
+    "id": "button_label",
+    "label": "Button label"
+    },
+    {
+    "type": "url",
+    "id": "button_link",
+    "label": "Button link"
+    }
+    ],
+    "presets": [
+    {
+    "name": "Hero Banner",
+    "category": "Image"
+    }
+    ]
+    }
+{% endschema %}

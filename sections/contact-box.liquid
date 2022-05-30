@@ -1,0 +1,269 @@
+{%- assign social_icons = false -%}
+
+{% if
+    settings.social_twitter_link != blank
+    or settings.social_facebook_link != blank
+    or settings.social_pinterest_link != blank
+    or settings.social_instagram_link != blank
+    or settings.social_tumblr_link != blank
+    or settings.social_snapchat_link != blank
+    or settings.social_youtube_link != blank
+    or settings.social_vimeo_link != blank
+    or template.name == 'article'
+    or template.name == 'blog'
+%}
+    {%- assign social_icons = true -%}
+{% endif %}
+
+
+
+<!-- /.contact-box  start  -->
+<section class="contact-box">
+    <div class="container">
+        <div class=" inner-contact-box ">
+            <div class="inner-container">
+                <div class="row">
+                    {% if section.settings.contact_title != blank %}
+                    <div class="col-lg-6 col-md-8 col-sm-12">
+                        <h2 class="d-inline-block clearfix mr-20">{{ section.settings.contact_title | escape }}</h2><span
+                                class="border-title"></span>
+
+                        <h5>{{ section.settings.contact_sub_title | escape }} </h5>
+
+                    </div>
+                    {% endif %}
+                    {% if section.settings.social_link != false %}
+                        {% if social_icons %}
+                            <div class="col-lg-6 col-md-4 col-sm-12 text-right">
+                                <ul class="list-inline social_link m-0">
+                                    {% if settings.social_facebook_link != blank %}
+                                        <li class="list-inline-item">
+                                            <a href="{{ settings.social_facebook_link }}"
+                                               title="{{ 'layout.footer.social_platform' | t: name: shop.name, platform: 'Facebook' }}">
+                                                {% if settings.facebook_icon_name != blank %}
+                                                    <i class="zmdi {{ settings.facebook_icon_name }}"></i>
+                                                {% else %}
+                                                    <span>Facebook</span>
+                                                {% endif %}
+                                            </a>
+                                        </li>
+                                    {% endif %}
+                                    {% if settings.social_twitter_link != blank %}
+                                        <li class="list-inline-item">
+
+                                            <a href="{{ settings.social_twitter_link }}"
+                                               title="{{ 'layout.footer.social_platform' | t: name: shop.name, platform: 'Twitter' }}">
+                                                {% if settings.twitter_icon_name != blank %}
+                                                    <i class="zmdi {{ settings.twitter_icon_name }}"></i>
+                                                {% else %}
+                                                    <span>Twitter</span>
+                                                {% endif %}
+                                            </a>
+
+                                        </li>
+                                    {% endif %}
+                                    {% if settings.social_youtube_link != blank %}
+                                        <li class="list-inline-item">
+
+                                            <a href="{{ settings.social_youtube_link }}"
+                                               title="{{ 'layout.footer.social_platform' | t: name: shop.name, platform: 'YouTube' }}">
+                                                {% if settings.youtube_icon_name != blank %}
+                                                    <i class="zmdi {{ settings.youtube_icon_name }}"></i>
+                                                {% else %}
+                                                    <span>YouTube</span>
+                                                {% endif %}
+                                            </a>
+                                        </li>
+                                    {% endif %}
+                                    {% if settings.social_instagram_link != blank %}
+                                        <li class="list-inline-item">
+                                            <a href="{{ settings.social_instagram_link }}"
+                                               title="{{ 'layout.footer.social_platform' | t: name: shop.name, platform: 'Instagram' }}">
+                                                {% if settings.instagram_icon_name != blank %}
+                                                    <i class="zmdi {{ settings.instagram_icon_name }}"></i>
+                                                {% else %}
+                                                    <span>Instagram</span>
+                                                {% endif %}
+                                            </a>
+                                        </li>
+                                    {% endif %}
+                                    {% if settings.social_pinterest_link != blank %}
+                                        <li class="list-inline-item">
+
+                                            <a href="{{ settings.social_instagram_link }}"
+                                               title="{{ 'layout.footer.social_platform' | t: name: shop.name, platform: 'Pinterest' }}">
+                                                {% if settings.pinterest_icon_name != blank %}
+                                                    <i class="zmdi {{ settings.pinterest_icon_name }}"></i>
+                                                {% else %}
+                                                    <span>Pinterest</span>
+                                                {% endif %}
+                                            </a>
+
+                                        </li>
+                                    {% endif %}
+                                    {% if settings.social_tumblr_link != blank %}
+                                        <li class="list-inline-item">
+                                            <a href="{{ settings.social_tumblr_link }}"
+                                               title="{{ 'layout.footer.social_platform' | t: name: shop.name, platform: 'Tumblr' }}">
+                                                {% if settings.tumblr_icon_name != blank %}
+                                                    <i class="zmdi {{ settings.tumblr_icon_name }}"></i>
+                                                {% else %}
+                                                    <span>Tumblr</span>
+                                                {% endif %}
+                                            </a>
+
+                                        </li>
+                                    {% endif %}
+                                    {% if settings.social_vimeo_link != blank %}
+                                        <li class="list-inline-item">
+                                            <a href="{{ settings.social_vimeo_link }}"
+                                               title="{{ 'layout.footer.social_platform' | t: name: shop.name, platform: 'Vimeo' }}">
+                                                {% if settings.vimeo_icon_name != blank %}
+                                                    <i class="zmdi {{ settings.vimeo_icon_name }}"></i>
+                                                {% else %}
+                                                    <span>Vimeo</span>
+                                                {% endif %}
+                                            </a>
+                                        </li>
+                                    {% endif %}
+
+                                </ul>
+                            </div>
+                        {% endif %}
+                    {% endif %}
+                </div>
+                <hr>
+
+                {% if section.blocks.size > 0 %}
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="d-flex flex-wrap  justify-content-between contact-nfo-list">
+                                {%- assign count = 1 -%}
+                                {% for block in section.blocks %}
+                                    {% if block.settings.contact_heading %}
+                                        <div class="contact-info-wrap {% if count == 2 %} border-before border-after {% endif %}">
+                                            <h4 class="d-inline-block clearfix mr-20">{{ block.settings.contact_heading }}</h4>
+                                            <span class="border-title mr-1"></span>
+
+                                            {% if block.settings.image %}
+                                                <img src="{{ block.settings.image | img_url: '100x' }}" alt="{{ block.settings.alignment }}">
+                                            {% endif %}
+
+                                    {% if count == 1 %}
+
+                                        <p class=""><a class="black-text" href="tel:{{ block.settings.contact_text_1 }}"> <i
+                                                        class="zmdi zmdi-dot-circle mr-1"></i> {{ block.settings.contact_text_1 }} </a></p>
+                                        <p class=""><a class="black-text" href="tel:{{ block.settings.contact_text_2 }}"><i
+                                                        class="zmdi zmdi-dot-circle mr-1"></i> {{ block.settings.contact_text_2 }}</a></p>
+
+
+                                    {% elsif  count == 2 %}
+
+                                        <p class=""><a class="black-text" href="mailto:{{ block.settings.contact_text_1 }}"> <i
+                                                        class="zmdi zmdi-dot-circle mr-1"></i> {{ block.settings.contact_text_1 }}</a></p>
+                                        <p class=""><a class="black-text" href="mailto:{{ block.settings.contact_text_2 }}"><i
+                                                        class="zmdi zmdi-dot-circle mr-1"></i> {{ block.settings.contact_text_2 }}</a></p>
+                                    {% else %}
+
+                                        <address>
+                                            {{ block.settings.contact_text_1 }}
+                                        </address>
+
+                                    {% endif %}
+
+
+                                        </div>
+                                    {% endif %}
+
+                                    {% assign count = count | plus: 1 %}
+                                {% endfor %}
+
+
+                            </div>
+                        </div>
+                    </div>
+
+                {% endif %}
+
+            </div>
+        </div>
+    </div>
+</section>
+<!-- /.contact-box end  -->
+
+
+
+
+
+{% schema %}
+    {
+    "name": "Contact box",
+    "max_blocks": 3,
+    "settings": [
+    {
+    "type": "text",
+    "id": "contact_title",
+    "label": "Contact Title",
+    "default": "Don’t be shy, say Hi"
+    },
+    {
+    "type": "text",
+    "id": "contact_sub_title",
+    "label": "Contact Sub title",
+    "default": "ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod."
+    },
+    {
+    "type": "checkbox",
+    "id": "social_link",
+    "label": "Show Social Link",
+    "default": true
+    }
+    ],
+    "blocks": [
+    {
+    "type": "text",
+    "name": "Contact Information",
+    "settings": [
+    {
+    "type": "text",
+    "id": "contact_heading",
+    "label": "Add New heading",
+    "default": "Call us"
+    },
+    {
+    "type": "image_picker",
+    "id": "image",
+    "label": "Contact Header Image"
+    },
+    {
+    "type": "text",
+    "id": "contact_text_1",
+    "label": "Add New Text",
+    "default": "0123456789"
+    },
+    {
+    "type": "text",
+    "id": "contact_text_2",
+    "label": "Add New Text",
+    "default": "info@dummy0123text.com"
+    }
+    ]
+    }
+    ],
+    "presets": [
+    {
+    "name": "Contact To Information",
+    "category": "content",
+    "blocks": [
+    {
+    "type": "text"
+    },
+    {
+    "type": "text"
+    }
+    ]
+    }
+    ]
+    }
+{% endschema %}

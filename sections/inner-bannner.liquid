@@ -1,0 +1,48 @@
+
+<section class="inner-banner">
+    <div class="container inner-banner-content-box  overlay-banner" {% if section.settings.image %} style="background-image: url('{{ section.settings.image | img_url: '2048x' }}'); background-position: center {{ section.settings.alignment }};"{% endif %} >
+        <div class="inner-container">
+            <div class="row align-items-center">
+                <div class="col">
+                    <h1>{{ page_title }}</h1>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+{% schema %}
+    {
+    "name": "Banner Image",
+    "class": "inner-section",
+    "settings": [
+    {
+    "type": "image_picker",
+    "id": "image",
+    "label": "Image"
+    },
+    {
+    "type": "select",
+    "id": "alignment",
+    "label": "Image alignment",
+    "default": "center",
+    "options": [
+    {
+    "value": "top",
+    "label": "Top"
+    },
+    {
+    "value": "center",
+    "label": "Middle"
+    },
+    {
+    "value": "bottom",
+    "label": "Bottom"
+    }
+    ]
+    }
+    ]
+
+    }
+{% endschema %}

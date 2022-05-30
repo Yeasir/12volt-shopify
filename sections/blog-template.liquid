@@ -1,0 +1,218 @@
+{%- assign show_item_by = section.settings.show_by_paginate | plus: 0  -%}
+{% paginate blog.articles by show_item_by %}
+
+  <section class="inner-banner">
+    <div class="container inner-banner-content-box {% if section.settings.overlay_banner != false %} overlay-banner {% endif %} " {% if section.settings.image %} style="background-image: url('{{ section.settings.image | img_url: '2048x' }}'); background-position: center {{ section.settings.alignment }};"{% endif %} >
+      <div class="inner-container">
+        <div class="row align-items-center">
+          <div class="col-sm-6">
+            <h1>{{ page_title }}</h1>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- /.works-area start  -->
+  <section class="faq-area">
+    <div class="container">
+      <div class="inner-container">
+        <div class="row align-items-center">
+
+            {% if section.settings.article_title %}
+          <div class="col-sm-8">
+            <h2 class="d-inline-block clearfix mr-20">{{ section.settings.article_title | escape }}</h2>
+            <span class="border-title"></span>
+          </div>
+            {% endif %}
+            {% if section.settings.blog_filter != false %}
+          <div class="col-sm-4 text-right">
+              {% if blog.tags.size > 0 %}
+                <select id="BlogTagFilter" class="w-25">
+                  <option value="/blogs/{{ blog.handle }}">{{ 'blogs.article.all_topics' | t }}</option>
+                    {% for tag in blog.all_tags %}
+                      <option value="/blogs/{{ blog.handle }}/tagged/{{ tag | handleize }}" {% if current_tags contains tag %}selected{% endif %}>{{ tag }}</option>
+                    {% endfor %}
+                </select>
+              {% endif %}
+          </div>
+            {% endif %}
+        </div>
+
+        <hr>
+
+        <div class="row mt-50">
+
+            {% for article in blog.articles %}
+
+              <div class="col-lg-4 col-md-6 col-sm-12">
+                <article>
+                    {% if article.image %}
+                      <a href="{{ article.url }}" class="article__grid-image">
+                          {{ article | img_url: '345x', scale: 2 | img_tag: article.title }}
+                      </a>
+                    {% endif %}
+                  <h5 class="blog-title"><a href="{{ article.url }}">{{ article.title }}</a></h5>
+
+                  <p class="blog-description">
+                      {% if article.excerpt.size > 0 %}
+                          {{ article.excerpt }}
+                      {% else %}
+                          {{ article.content | strip_html | truncate: 150 }}
+                      {% endif %}
+                  </p>
+
+                    {% if section.settings.blog_show_author %}
+                      <a href="{{ article.author.url  }}" class="float-left author-info"> {{ 'blogs.article.by_author' | t: author: article.author }}</a>
+                    {% endif %}
+
+                    {% if section.settings.blog_show_date %}
+                      <a href="" class="float-right date">{{ article.published_at | date: '%Y-%m-%d' }}</a>
+                    {% endif %}
+
+                  <div class="clearfix"></div>
+                </article>
+              </div>
+
+
+            {% endfor %}
+
+
+        </div>
+
+      </div>
+    </div>
+  </section>
+  <!-- /.works-area start  -->
+
+   <section class="pagination">
+     <div class="container">
+       <div class="row align-items-center">
+         <div class="col text-center">
+             {% if paginate.pages > 1 %}
+                 {% include 'pagination' %}
+             {% endif %}
+         </div>
+       </div>
+     </div>
+   </section>
+{% endpaginate %}
+
+{% schema %}
+  {
+    "name": "Blog pages",
+    "settings": [
+  {
+  "type": "select",
+  "id": "show_by_paginate",
+  "label": "Show paginate by Item",
+  "default": "6",
+  "options": [
+  {
+  "value": "2",
+  "label": "2"
+  },
+  {
+  "value": "3",
+  "label": "3"
+  },
+  {
+  "value": "4",
+  "label": "4"
+  },
+  {
+  "value": "5",
+  "label": "5"
+  },
+  {
+  "value": "6",
+  "label": "6"
+  },
+  {
+  "value": "7",
+  "label": "7"
+  },
+  {
+  "value": "8",
+  "label": "8"
+  },
+  {
+  "value": "9",
+  "label": "9"
+  },
+  {
+  "value": "10",
+  "label": "10"
+  },
+  {
+  "value": "11",
+  "label": "11"
+  },
+  {
+  "value": "12",
+  "label": "12"
+  }
+  ]
+  },
+      {
+      "type": "text",
+      "id": "article_title",
+      "label": "Article Headline",
+      "default": "Articles"
+      },
+  {
+  "type": "image_picker",
+  "id": "image",
+  "label": "Blog Banner Image"
+  },
+  {
+  "type": "select",
+  "id": "alignment",
+  "label": "Image alignment",
+  "default": "center",
+  "options": [
+  {
+  "value": "top",
+  "label": "Top"
+  },
+  {
+  "value": "center",
+  "label": "Middle"
+  },
+  {
+  "value": "bottom",
+  "label": "Bottom"
+  }
+  ]
+  },
+
+  {
+  "type": "checkbox",
+  "id": "overlay_banner",
+  "label": "Show overlay On Banner",
+  "default": true
+  },
+
+      {
+      "type": "checkbox",
+      "id": "blog_filter",
+      "label": "Show Blog Filter",
+      "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "blog_show_author",
+        "label": "Show author",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "blog_show_date",
+        "label": "Show date",
+        "default": true
+      }
+    ]
+  }
+{% endschema %}

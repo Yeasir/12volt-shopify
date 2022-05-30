@@ -1,0 +1,110 @@
+{% capture image_layout %}
+  <div class="col-lg-6 col-md-6 col-sm-12 text-center clearfix">
+    <div class="product-img-block">
+      {% if section.settings.image != blank %}
+          {{ section.settings.image | img_url: '600x600' | img_tag: section.settings.image.alt, 'feature-row__image' }}
+      {% else %}
+          {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+      {% endif %}
+    </div>
+  </div>
+{% endcapture %}
+
+
+<section class="sketch-product-block">
+  <div class="container-fluid no-gutters p-0">
+    <div class="inner-box">
+      <div class="row align-items-center">
+
+          {% if section.settings.layout == 'left' %}
+              {{ image_layout }}
+          {% endif %}
+
+        <div class="col-lg-6 col-md-6 col-sm-12 clearfix {{ section.settings.layout }}">
+
+          <span class="border-title"></span>
+          <div class="sketch-content-box d-inline-block clearfix">
+              {% if section.settings.title != blank %}
+                <h2>{{ section.settings.title | escape }}</h2>
+              {% endif %}
+              {% if section.settings.text != blank %}
+                <div class="featured-row__subtext"><p>
+                        {{ section.settings.text }}
+                  </p></div>
+              {% endif %}
+
+              {% if section.settings.button_label != blank and section.settings.button_link != blank %}
+                <a href="{{ section.settings.button_link }}" class="btn yl-btn ml-20">
+                  <span> {{ section.settings.button_label }}</span>
+                </a>
+              {% endif %}
+          </div>
+
+        </div>
+
+          {% if section.settings.layout == 'right' %}
+              {{ image_layout }}
+          {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+
+
+{% schema %}
+  {
+    "name": "Image with text",
+    "class": "index-section",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "image",
+        "label": "Image"
+      },
+      {
+        "type": "select",
+        "id": "layout",
+        "label": "Layout",
+        "default": "left",
+        "options": [
+          {
+            "value": "left",
+            "label": "Image on left"
+          },
+          {
+            "value": "right",
+            "label": "Image on right"
+          }
+        ]
+      },
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Heading",
+        "default": "Image with text"
+      },
+      {
+        "type": "richtext",
+        "id": "text",
+        "label": "Text",
+        "default": "<p>Pair large text with an image to give focus to your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.</p>"
+      },
+      {
+        "type": "text",
+        "id": "button_label",
+        "label": "Button label"
+      },
+      {
+        "type": "url",
+        "id": "button_link",
+        "label": "Button link"
+      }
+    ],
+    "presets": [
+      {
+        "name": "Image with text",
+        "category": "Image"
+      }
+    ]
+  }
+{% endschema %}

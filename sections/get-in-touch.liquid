@@ -1,0 +1,130 @@
+<!-- /.get-in-touch start  -->
+<section class="get-in-touch">
+    <div class="container-fluid no-gutters p-0">
+        <div class="row">
+            <div class="col-lg-4 col-md-5 col-sn-12">
+
+                <div class="get-touch-img-box">
+
+                    {% if section.settings.image %}
+                        <img src="{{ section.settings.image | img_url: '2048x' }}" alt="{{ section.settings.get_touch_title }}">
+                    {% endif %}
+                </div>
+
+            </div>
+            <div class="col-lg-8 col-md-7 col-sn-12">
+                <div class="get-touch-box">
+                    {% if section.settings.get_touch_title %}
+                    <h2>{{ section.settings.get_touch_title | escape }}</h2>
+                    {% endif %}
+                    {% if section.settings.get_touch_info %}
+                        <div class="nfo">{{ section.settings.get_touch_info }}</div>
+                    {% endif %}
+
+                    <div class="contact-form form-vertical">
+                        {% form 'contact' %}
+
+
+                                <div class="form-row">
+                                    <div class="col-12">
+                                        {% if form.posted_successfully? %}
+                                            <p class="note form-success green-text">
+                                                {{ 'contact.form.post_success' | t }}
+                                            </p>
+                                        {% endif %}
+                                        {{ form.errors | default_errors }}
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+
+                                            <input type="text" id="ContactFormName" class="form-control" name="contact[name]"  placeholder="Name*" value="{% if form[name] %}{{ form[name] }}{% elsif customer %}{{ customer.name }}{% endif %}">
+
+
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <input type="tel"class="form-control"  id="ContactFormPhone" name="contact[phone]" placeholder="Phone*" pattern="[0-9\-]*" value="{% if form[phone] %}{{ form[phone] }}{% elsif customer %}{{ customer.phone }}{% endif %}" >
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <input type="email"  class="form-control" id="ContactFormEmail" name="contact[email]" autocorrect="off" autocapitalize="off" value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}" class="{% if form.errors contains 'email' %}input--error{% endif %}" placeholder="Email Address*">
+
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <input type="text"class="form-control"  id="ContactFormCity" name="contact[city]" placeholder="City*" value="{% if form[city] %}{{ form[city] }}{% elsif customer %}{{ customer.city }}{% endif %}" >
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                            <textarea cols="30" rows="4"  class="form-control"  id="ContactFormMessage" placeholder="Comments / Questions*" name="contact[body]">{% if form.body %}{{ form.body }}{% endif %}</textarea>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="form-row">
+                                    <div class="col-sm-5">
+                                        <div class="recapcha-img">
+                                            <img src="{{ 'recapcha.png' | asset_url }}" alt="">
+                                        </div>
+
+                                    </div>
+                                    <div class="col-sm-7">
+                                        <div class="submit-btn-wrap  ">
+
+                                            <button type="submit" class="btn yl-btn mtb-25 drop-shadow submit-btn"><span>{{ 'contact.form.submit' | t }}</span></button>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+
+                        {% endform %}
+                    </div>
+
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- /.get-in-touch end  -->
+
+{% schema %}
+    {
+    "name": "Get In Touch",
+    "settings": [
+    {
+    "type": "image_picker",
+    "id": "image",
+    "label": "Get in Touch Side Image"
+    },
+    {
+    "type": "text",
+    "id": "get_touch_title",
+    "label": "Get Touch Title",
+    "default": "Get in touch"
+    },
+    {
+    "type": "richtext",
+    "id": "get_touch_info",
+    "label": "Get Touch Information",
+    "default": "<p>Sentence here with some personality that says to please fill</p>"
+    }
+    ]
+    }
+{% endschema %}

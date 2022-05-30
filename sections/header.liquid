@@ -1,0 +1,129 @@
+<header class="header">
+  <nav class="navbar navbar-expand-lg cuatom-navbar">
+      {% if section.settings.logo %}
+        <a href="/" itemprop="url" class="navbar-brand {% if section.settings.align_logo == 'center' %} site-header__logo-image--centered{% endif %}">
+            {% capture image_size %}{{ section.settings.logo_max_width }}x{% endcapture %}
+          <img src="{{ section.settings.logo | img_url: image_size }}"
+               srcset="{{ section.settings.logo | img_url: image_size }} 1x, {{ section.settings.logo | img_url: image_size, scale: 2 }} 2x"
+               alt="{{ section.settings.logo.alt | default: shop.name }}"
+               itemprop="logo">
+        </a>
+      {% else %}
+        <a class="site-header__logo-link" href="/" itemprop="url">{{ shop.name }}</a>
+      {% endif %}
+
+
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <i class="zmdi zmdi-menu"></i>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto">
+
+          {% for link in linklists[section.settings.menu].links %}
+              {% if link.links != blank %}
+                <li class="nav-item dropdown {% if link.active %}active{% endif %}" >
+                  <a title="{{ link.title }}" href="{{ link.url }}" data-toggle="dropdown" id="{{ link.title }}"  class="dropdown-toggle nav-link" aria-haspopup="true" aria-expanded="true">
+                      {{ link.title }}
+                    <i class="zmdi zmdi-chevron-down ml-1"></i>
+                  </a>
+                  <div aria-labelledby="{{ link.title }}" role="menu" class="dropdown-menu">
+                      {% for childlink in link.links %}
+
+                          <a class="dropdown-item {% if link.active %}active{% endif %}" title="— {{ childlink.title }}" href="{{ childlink.url }}">
+                            {{ childlink.title }}
+                          </a>
+
+                      {% endfor %}
+                  </div>
+                </li>
+              {% else %}
+                <li class="nav-item {% if link.active %}active{% endif %}">
+                  <a  class="nav-link"title="{{ link.title }}"  href="{{ link.url }}">  {% if link.title == 'sign-in' %} <i class="zmdi zmdi-square-right"></i> {% endif %}{{ link.title }}</a>
+                </li>
+              {% endif %}
+          {% endfor %}
+
+
+      </ul>
+
+        {% if section.settings.cart %}
+
+            <form class="form-inline my-2 my-lg-0 m-cart">
+
+                {% if section.settings.cart %}
+                    {% if section.settings.cart_link != blank %}
+                      <a href="{{ section.settings.cart_link }}">
+                        <div class="cart">
+                          <i class="zmdi {{ section.settings.cart_icon }}"></i>
+                          <div class="counter">0</div>
+                        </div>
+                      </a>
+                    {% else %}
+                      <p>{{ section.settings.cart_link }}</p>
+                    {% endif %}
+                {% endif %}
+
+
+
+          </form>
+        {% endif %}
+
+
+
+    </div>
+  </nav>
+</header>
+
+
+{% schema %}
+  {
+  "name": "Header",
+  "settings": [
+  {
+  "type": "header",
+  "content": "Header"
+  },
+  {
+  "type": "image_picker",
+  "id": "logo",
+  "label": "Logo image"
+  },
+  {
+  "type": "range",
+  "id": "logo_max_width",
+  "min": 50,
+  "max": 450,
+  "step": 10,
+  "unit": "px",
+  "label": "Custom logo width",
+  "default": 250
+  },
+  {
+  "type": "link_list",
+  "id": "menu",
+  "label": "Menu",
+  "default": "main-menu"
+  },
+  {
+  "type": "checkbox",
+  "id": "cart",
+  "label": "Show Cart Icon",
+  "default": false
+  },
+  {
+  "type": "text",
+  "id": "cart_icon",
+  "label": "Cart Icon",
+  "default": "zmdi-shopping-cart",
+  "info": "please enter shopping cart icon class name"
+  },
+  {
+  "type": "url",
+  "id": "cart_link",
+  "label": "Cart page Url"
+  }
+  ]
+  }
+{% endschema %}

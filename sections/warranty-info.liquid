@@ -1,0 +1,169 @@
+
+    {% if section.blocks.size > 0 %}
+    <ul class="nav nav-tabs product-tabs warranty-tab " role="tablist">
+    {%- assign count = 1 -%}
+    {% for block in section.blocks %}
+
+        {% if block.settings.heading %}
+            <li class="nav-item">
+                <a class="nav-link  {% if count == 2 %} active show {% endif %} " href="#item-{{ count }}" role="tab" data-toggle="tab" aria-selected="false"> {{ block.settings.heading }} </a>
+            </li>
+        {% endif %}
+
+        {% assign count = count | plus: 1 %}
+    {% endfor %}
+    </ul>
+
+
+<!-- Tab panes -->
+<div class="tab-content">
+
+    {%- assign count = 1 -%}
+    {% for block in section.blocks %}
+    <!--requirement login-->
+    <div role="tabpanel" class="tab-pane fade {% if count == 2 %} in active show {% endif %} "  id="item-{{ count }}">
+        {% if block.settings.content %}
+        <div class="description">
+            {{ block.settings.content }}
+        </div>
+        {% endif %}
+
+        {% if block.settings.additional_info != blank %}
+        <div class="purchase-nfo">
+            <div class="mb-5">
+                {% if block.settings.link != blank %}
+                <a  href="{{ block.settings.link }}" class="btn yl-btn"> <span> <i class="zmdi zmdi-shopping-cart"></i>{{ block.settings.linktext }}</span></a>  {% endif %} {{ block.settings.info }}
+            </div>
+
+            {% if block.settings.video_url != blank %}
+            <div class="row">
+                <div class="col-lg-8 col-md-12 col-sm-12">
+
+                    <div class="videoWrapper videoWrapper169 js-videoWrapper">
+                        <iframe class="videoIframe js-videoIframe video-wrapper position-relative" src="{{ block.settings.video_url }}" frameborder="0"
+                                allowTransparency="true" allowfullscreen
+                                data-src="{{ block.settings.video_url }}"></iframe>
+                        <button class="videoPoster js-videoPoster"
+                                {% if block.settings.poster_image %} style="background-image: url('{{ block.settings.poster_image | img_url: '2048x' }}'); background-position: center {{ block.settings.alignment }};"{% endif %}>
+                            <div class="video-overlay-play-button">
+                                <div class="ag-play_pulse-1"></div>
+                                <div class="ag-play_pulse-2"></div>
+                            </div>
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+            {% endif %}
+        </div>
+        {% endif %}
+
+    </div>
+    <!--requirement login-->
+        {% assign count = count | plus: 1 %}
+    {% endfor %}
+
+
+
+
+</div>
+
+    {% endif %}
+{% schema %}
+    {
+    "name": "Warranty Blocks",
+    "max_blocks": 5,
+
+    "blocks": [
+    {
+    "type": "select",
+    "name": "Add New Warranty Block",
+    "settings": [
+    {
+    "type": "text",
+    "id": "heading",
+    "label": "Add New Warranty Heading",
+    "default": "Warranty Heading"
+    },
+    {
+    "type": "html",
+    "id": "content",
+    "label": "Add New Warranty Content",
+    "default": "<p>Warranty Content</p>"
+    },
+    {
+    "type": "checkbox",
+    "id": "additional_info",
+    "label": "Show Additional Information",
+    "default": false
+    },
+    {
+    "id": "link",
+    "type": "url",
+    "label": "Button link"
+    },
+    {
+    "id": "linktext",
+    "type": "text",
+    "label": "Button text",
+    "default": "Click here"
+    },
+    {
+    "id": "info",
+    "type": "html",
+    "label": "Info text",
+    "default": "<p>Forever Warranty is </p>"
+    },
+    {
+    "id": "video_url",
+    "type": "video_url",
+    "label": "Video URL",
+    "accept": ["youtube", "vimeo"],
+    "default": "https://player.vimeo.com/video/6370469",
+    "info": "Text",
+    "placeholder": "Text"
+    },
+    {
+    "type": "image_picker",
+    "id": "poster_image",
+    "label": "Poster Image"
+    },
+    {
+    "type": "select",
+    "id": "alignment",
+    "label": "Image alignment",
+    "default": "center",
+    "options": [
+    {
+    "value": "top",
+    "label": "Top"
+    },
+    {
+    "value": "center",
+    "label": "Middle"
+    },
+    {
+    "value": "bottom",
+    "label": "Bottom"
+    }
+    ]
+    }
+    ]
+    }
+    ],
+    "presets": [
+    {
+    "name": "Warranty Blocks",
+    "category": "Warranty Blocks",
+    "blocks": [
+    {
+    "type": "select"
+    },
+    {
+    "type": "select"
+    }
+    ]
+    }
+    ]
+    }
+{% endschema %}

@@ -1,0 +1,167 @@
+{%- assign social_icons = false -%}
+
+{% if
+    settings.social_twitter_link != blank
+    or settings.social_facebook_link != blank
+    or settings.social_pinterest_link != blank
+    or settings.social_instagram_link != blank
+    or settings.social_tumblr_link != blank
+    or settings.social_snapchat_link != blank
+    or settings.social_youtube_link != blank
+    or settings.social_vimeo_link != blank
+    or template.name == 'article'
+    or template.name == 'blog' %}
+    {%- assign social_icons = true -%}
+{% endif %}
+
+<footer role="contentinfo">
+    <div class="footer-top">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-12 text-center">
+
+                    {%- assign footer_linklist = section.settings.footer_linklist -%}
+                    {% if linklists[footer_linklist].links.size > 0 %}
+                        <ul class="list-inline footer-menu mb-0">
+                            {% for link in linklists[footer_linklist].links %}
+                                <li class="list-inline-item">
+                                    <a href="{{ link.url }}">{{ link.title }}</a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% if social_icons %}
+            <ul class="list-unstyled social_link">
+                {% if settings.social_facebook_link != blank %}
+                    <li>
+                        <a href="{{ settings.social_facebook_link }}"
+                           title="{{ 'layout.footer.social_platform' | t: name: shop.name, platform: 'Facebook' }}">
+                            {% if settings.facebook_icon_name != blank %}
+                                <i class="zmdi {{ settings.facebook_icon_name }}"></i>
+                            {% else %}
+                                <span>Facebook</span>
+                            {% endif %}
+                        </a>
+                    </li>
+                {% endif %}
+                {% if settings.social_twitter_link != blank %}
+                    <li>
+
+                        <a href="{{ settings.social_twitter_link }}"
+                           title="{{ 'layout.footer.social_platform' | t: name: shop.name, platform: 'Twitter' }}">
+                            {% if settings.twitter_icon_name != blank %}
+                                <i class="zmdi {{ settings.twitter_icon_name }}"></i>
+                            {% else %}
+                                <span>Twitter</span>
+                            {% endif %}
+                        </a>
+
+                    </li>
+                {% endif %}
+
+                {% if settings.social_youtube_link != blank %}
+                    <li>
+
+                        <a href="{{ settings.social_youtube_link }}"
+                           title="{{ 'layout.footer.social_platform' | t: name: shop.name, platform: 'YouTube' }}">
+                            {% if settings.youtube_icon_name != blank %}
+                                <i class="zmdi {{ settings.youtube_icon_name }}"></i>
+                            {% else %}
+                                <span>YouTube</span>
+                            {% endif %}
+                        </a>
+                    </li>
+                {% endif %}
+                {% if settings.social_instagram_link != blank %}
+                    <li>
+                        <a href="{{ settings.social_instagram_link }}"
+                           title="{{ 'layout.footer.social_platform' | t: name: shop.name, platform: 'Instagram' }}">
+                            {% if settings.instagram_icon_name != blank %}
+                                <i class="zmdi {{ settings.instagram_icon_name }}"></i>
+                            {% else %}
+                                <span>Instagram</span>
+                            {% endif %}
+                        </a>
+                    </li>
+                {% endif %}
+                {% if settings.social_pinterest_link != blank %}
+                    <li>
+
+                        <a href="{{ settings.social_instagram_link }}"
+                           title="{{ 'layout.footer.social_platform' | t: name: shop.name, platform: 'Pinterest' }}">
+                            {% if settings.pinterest_icon_name != blank %}
+                                <i class="zmdi {{ settings.pinterest_icon_name }}"></i>
+                            {% else %}
+                                <span>Pinterest</span>
+                            {% endif %}
+                        </a>
+
+                    </li>
+                {% endif %}
+                {% if settings.social_tumblr_link != blank %}
+                    <li>
+                        <a href="{{ settings.social_tumblr_link }}"
+                           title="{{ 'layout.footer.social_platform' | t: name: shop.name, platform: 'Tumblr' }}">
+                            {% if settings.tumblr_icon_name != blank %}
+                                <i class="zmdi {{ settings.tumblr_icon_name }}"></i>
+                            {% else %}
+                                <span>Tumblr</span>
+                            {% endif %}
+                        </a>
+
+                    </li>
+                {% endif %}
+                {% if settings.social_vimeo_link != blank %}
+                    <li>
+                        <a href="{{ settings.social_vimeo_link }}"
+                           title="{{ 'layout.footer.social_platform' | t: name: shop.name, platform: 'Vimeo' }}">
+                            {% if settings.vimeo_icon_name != blank %}
+                                <i class="zmdi {{ settings.vimeo_icon_name }}"></i>
+                            {% else %}
+                                <span>Vimeo</span>
+                            {% endif %}
+                        </a>
+                    </li>
+                {% endif %}
+
+            </ul>
+        {% endif %}
+    </div>
+    <div class="footer-bottom">
+        <div class="container">
+            <div class="row">
+                <div class="col text-center copy-rights">
+                    <div class="site-footer__copyright--bottom mt-0">
+                        <small class="site-footer__copyright-content">&copy; {{ 'now' | date: "%Y" }}
+                            , {{ shop.name | link_to: '/' }}</small>
+                        <small class="site-footer__copyright-content">{{ powered_by_link }}</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</footer>
+
+{% schema %}
+    {
+    "name": "Footer",
+    "settings": [
+    {
+    "type": "link_list",
+    "id": "footer_linklist",
+    "label": "Footer menu",
+    "default": "footer"
+    },
+    {
+    "type": "link_list",
+    "id": "footer_linklist_two",
+    "label": "Additional menu",
+    "default": "main-menu"
+    }
+    ]
+    }
+{% endschema %}

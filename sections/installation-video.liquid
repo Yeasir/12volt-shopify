@@ -1,0 +1,145 @@
+
+<!-- /.testimonial-area start  -->
+{% if section.blocks.size > 0 %}
+<!-- /.installation-area  start  -->
+<section class="installation-area">
+    <div class="container">
+        <div class="container-wrap">
+            <div class="inner-container">
+
+                {% if section.settings.title != blank %}
+                    <div class="row align-items-center">
+                        <div class="col-12">
+                            <h2 class="d-inline-block clearfix mr-20">{{ section.settings.title | escape }}</h2><span
+                                    class="border-title"></span>
+
+                        </div>
+                    </div>
+                {% endif %}
+
+                <hr>
+
+                <div class="row align-items-center justify-content-center">
+                    <div class="col-12">
+                        <ul class="list-unstyled m-0  step-slider d-flex flex-wrap  justify-content-between">
+
+                            {% for block in section.blocks %}
+                                {% if block.settings.heading %}
+
+                                    <li>
+                                        <div class="step">
+                                            <h3>{{ block.settings.heading }}</h3>
+                                            <div class="videoWrapper step-video-wrapper videoWrapper169 js-videoWrapper">
+                                                <iframe class="videoIframe js-videoIframe video-wrapper" src="{{ block.settings.video_url }}" frameborder="0"
+                                                        allowTransparency="true" allowfullscreen
+                                                        data-src="{{ block.settings.video_url }}"></iframe>
+                                                <button class="videoPoster js-videoPoster"
+                                                        {% if block.settings.poster_image %} style="background-image: url('{{ block.settings.poster_image | img_url: '2048x' }}'); background-position: center {{ block.settings.alignment }};"{% endif %}>
+                                                    <div class="video-overlay-play-button">
+                                                        <div class="ag-play_pulse-1"></div>
+                                                        <div class="ag-play_pulse-2"></div>
+                                                    </div>
+                                                </button>
+                                            </div>
+                                            <h5 class="step-title"><a href="{{ block.settings.url }}" >{{ block.settings.subtitle }}</a></h5>
+                                        </div>
+                                    </li>
+
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- /.installation-area end  -->
+{% endif %}
+{% schema %}
+  {
+    "name": "Installation",
+    "class": "index-section",
+    "settings": [
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Heading",
+        "default": "Installation"
+      }
+    ],
+  "blocks": [
+  {
+  "type": "text",
+  "name": "Add New Installation",
+  "settings": [
+      {
+      "type": "text",
+      "id": "heading",
+      "label": "Add New Installation Item",
+      "default": "Step 01"
+      },
+    {
+    "id": "video_url",
+    "type": "video_url",
+    "label": "Video URL",
+    "accept": ["youtube", "vimeo"],
+    "default": "https://player.vimeo.com/video/6370469",
+    "info": "Text",
+    "placeholder": "Text"
+    },
+    {
+    "type": "image_picker",
+    "id": "poster_image",
+    "label": "Poster Image"
+    },
+    {
+    "type": "select",
+    "id": "alignment",
+    "label": "Image alignment",
+    "default": "center",
+    "options": [
+    {
+    "value": "top",
+    "label": "Top"
+    },
+    {
+    "value": "center",
+    "label": "Middle"
+    },
+    {
+    "value": "bottom",
+    "label": "Bottom"
+    }
+    ]
+    },
+      {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Sub title",
+      "default": "Lorem Ipsum is simply dummy"
+      },{
+    "type": "url",
+    "id": "url",
+    "label": "Video page Url"
+    }
+  ]
+  }
+  ],
+    "presets": [
+      {
+        "name": "Installation",
+        "category": "content",
+          "blocks": [
+          {
+          "type": "text"
+          },
+          {
+          "type": "text"
+          }
+          ]
+      }
+    ]
+  }
+{% endschema %}

@@ -1,0 +1,46 @@
+/* ==========================================================================
+> Custom Styles here
+========================================================================== */
+.placeholder-noblocks{
+    display: none !important;
+}
+.h-315{
+    height: 315px;
+}
+.filters-toolbar__input.filters-toolbar__input--filter{
+    width: 150px !important;
+}
+.product-single__photo{
+    position: relative;
+    overflow: hidden;
+    margin: 0 auto;
+    text-align: center;
+    padding: 275px 0;
+    background: #f5f5f5;
+}
+.blog-image-box{
+    min-height: 640px;
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    width: 100%;
+    box-shadow: 0px 15px 62px 0px rgba(0,0,0,0.3);
+    margin: 50px 0px;
+}
+.red-text{
+    color: #d53253;
+}
+.errors{
+    color: #d53253;
+}
+.green-text{
+    color: #09d579;
+}
+.errors ul{
+    padding: 20px 0 0 0;
+    margin: 0;
+}
+
+#accordion .card .card-body p>a{
+    color: #ffca2d;
+}

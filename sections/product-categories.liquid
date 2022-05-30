@@ -1,0 +1,94 @@
+
+<!-- /.product-categories start  -->
+<section class="product-categories">
+    <div class="container">
+        <div class="inner-cat-box">
+            <div class="inner-container">
+                <div class="row align-items-center">
+                    <div class="col-12">
+                        <ul class="list-inline m-0 product">
+                            {%- assign collection_item = section.settings.collection_item | plus: 0  -%}
+                            {%- assign count = 1 -%}
+                            {% for collection in collections %}
+                                <li class="list-inline-item {% if count > collection_item %} load-more-item {% endif %} ">
+                                    {% include 'collection-grid-item' %}
+                                </li>
+                                {% assign count = count | plus: 1 %}
+                            {% endfor %}
+                        </ul>
+                        {% if collections.size > collection_item %}
+                            <div class="more-btn text-center">
+                                <a href="javascript:void(0)" class="btn yl-btn  load-more"><span>More</span></a>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+<!-- /.product-categories end  -->
+
+
+{% schema %}
+    {
+    "name": "Collections",
+    "class": "index-section",
+    "settings": [
+    {
+    "type": "select",
+    "id": "collection_item",
+    "label": "Collection Show As Default",
+    "default": "12",
+    "options": [
+    {
+    "value": "2",
+    "label": "2"
+    },
+    {
+    "value": "3",
+    "label": "3"
+    },
+    {
+    "value": "4",
+    "label": "4"
+    },
+    {
+    "value": "5",
+    "label": "5"
+    },
+    {
+    "value": "6",
+    "label": "6"
+    },
+    {
+    "value": "7",
+    "label": "7"
+    },
+    {
+    "value": "8",
+    "label": "8"
+    },
+    {
+    "value": "9",
+    "label": "9"
+    },
+    {
+    "value": "10",
+    "label": "10"
+    },
+    {
+    "value": "11",
+    "label": "11"
+    },
+    {
+    "value": "12",
+    "label": "12"
+    }
+    ]
+    }
+
+    ]
+    }
+{% endschema %}
